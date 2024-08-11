@@ -52,3 +52,6 @@ il faut exécuté cette commande pour démmarer le Batch : hadoop jar $HADOOP_HO
 
 ## Lien Image Docker
 Lien : https://hub.docker.com/repository/docker/hamza3991/hadoop-tp-final/general
+
+
+# PS : Veuillez trouver les images du rendu du traitement des scripts dans le dossier « images ». Le numéro de l'image correspond à l'exercice ; par exemple, « exo1.png » correspond à l'exercice 1.
