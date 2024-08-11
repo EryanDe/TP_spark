@@ -35,6 +35,11 @@ mapperExo3.py : Script Python pour la phase de mappage.
 reduceExo3.py : Script Python pour la phase de réduction.
 Capture d'écran : La capture d'écran du résultat sera incluse ici.
 
+![Résultat du traitement batch](images/Batch1.png)
+![Résultat du traitement batch](images/Batch2.png)
+![Résultat du traitement batch](images/Batch3.png)
+
+
 il faut exécuté cette commande pour démmarer le Batch : hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar     -input /user/hadoop/input/bosses.csv     -output /user
 /hadoop/output     -mapper /root/mapreduce/map.py     -reducer /root/mapreduce/red.py     -file /root/mapreduce/map.py     -file /root/mapreduce/red.py
 
