@@ -5,8 +5,11 @@ from pyspark.sql.window import Window
 # Initialiser une session Spark
 spark = SparkSession.builder.appName("ArbresRemarquables").getOrCreate()
 
+spark.sparkContext.setLogLevel("INFO")  # Les niveaux possibles sont: ALL, DEBUG, INFO, WARN, ERROR, OFF
+
+
 # Charger les données CSV dans un DataFrame Spark
-df = spark.read.option("delimiter", ";").csv("file:///root/arbresremarquablesparis.csv", header=False)
+df = spark.read.option("delimiter", ";").csv("hdfs:///input/arbresremarquablesparis2.csv", header=False)
 
 # Renommer les colonnes pour une meilleure lisibilité
 columns = [
@@ -33,8 +36,9 @@ df_top_circonference = df_with_rank.filter(col("rank") == 1).select("Adresse", "
 df_top_circonference.show(truncate=False)
 
 # c. Afficher toutes les espèces d'arbre, triées par genre
-df_especes = df.select("Genre", "Espece").distinct().orderBy("Genre", "Espece")
-df_especes.show()
+df_especes = df_filtered.select("Genre", "Espece").distinct().orderBy("Genre", "Espece")
+df_especes.show(df_especes.count())
 
 # Arrêter la session Spark
 spark.stop()
+
