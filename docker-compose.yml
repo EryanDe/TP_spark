@@ -1,0 +1,55 @@
+
+version: '3.8'
+
+services:
+  hadoop-namenode:
+    image: hamza3991/hadoop-tp-final:latest  # Utilise ton image Docker pour le NameNode
+    container_name: hadoop-namenode
+    ports:
+      - "9870:9870"  # Port pour accéder à l'interface Web du NameNode
+      - "9000:9000"  # Port pour le service NameNode
+    volumes:
+      - hadoop_namenode_data:/hadoop/dfs/  # Volumes pour la persistance des données
+    environment:
+      - HDFS_NAMENODE_USER=root
+      - HDFS_DATANODE_USER=root
+      - HDFS_SECONDARYNAMENODE_USER=root
+    networks:
+      - hadoop_network
+
+  hadoop-datanode:
+    image: hamza3991/hadoop-tp-final:latest 
+    container_name: hadoop-datanode
+    ports:
+      - "9864:9864"  # Port pour accéder à l'interface Web du DataNode
+    volumes:
+      - hadoop_datanode_data:/hadoop/dfs/  # Volumes pour la persistance des données
+    environment:
+      - HDFS_NAMENODE_USER=root
+      - HDFS_DATANODE_USER=root
+      - HDFS_SECONDARYNAMENODE_USER=root
+    depends_on:
+      - hadoop-namenode
+    networks:
+      - hadoop_network
+
+  hadoop-master:
+    image: hamza3991/hadoop-tp-final:latest  # Utilise la même image pour le ResourceManager (master)
+    container_name: hadoop-master
+    ports:
+      - "8088:8088"  # Port pour accéder à l'interface Web du ResourceManager
+    environment:
+      - YARN_RESOURCEMANAGER_USER=root
+      - YARN_NODEMANAGER_USER=root
+      - YARN_CONF_yarn_resourcemanager_hostname=hadoop-master
+    depends_on:
+      - hadoop-namenode
+    networks:
+      - hadoop_network
+
+volumes:
+  hadoop_namenode_data:
+  hadoop_datanode_data:
+
+networks:
+  hadoop_network:
